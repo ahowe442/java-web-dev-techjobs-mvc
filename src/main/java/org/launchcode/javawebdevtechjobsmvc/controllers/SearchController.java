@@ -1,6 +1,5 @@
 package org.launchcode.javawebdevtechjobsmvc.controllers;
 
-import org.launchcode.javawebdevtechjobsmvc.models.Job;
 import org.launchcode.javawebdevtechjobsmvc.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 import static org.launchcode.javawebdevtechjobsmvc.controllers.ListController.columnChoices;
+import static org.launchcode.javawebdevtechjobsmvc.models.JobData.findByColumnAndValue;
 
 /**
  * Created by LaunchCode
@@ -24,5 +24,14 @@ public class SearchController {
     }
 
     // TODO #3 - Create a handler to process a search request and render the updated search view.
-
+    @RequestMapping()
+    public ArrayList<ArrayList> displaySearchResults(Model model, String searchTerm, String searchType){
+        ArrayList<ArrayList> jobs = new ArrayList<>();
+        if(searchTerm == "all" || searchTerm == ""){
+            JobData.findAll();
+        }else {
+            jobs.add(findByColumnAndValue(searchType, searchTerm));
+    }
+        return jobs;
+    }
 }
